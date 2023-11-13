@@ -1,16 +1,25 @@
 ---
-import Layout from '~/layouts/Layout.astro';
-import Header from '~/components/widgets/Header.astro';
-import Footer from '~/components/widgets/Footer.astro';
-import Announcement from '~/components/widgets/Announcement.astro';
+import Layout from "~/layouts/Layout.astro";
+import Header from "~/components/widgets/Header.astro";
+import Footer from "~/components/widgets/Footer.astro";
+import Announcement from "~/components/widgets/Announcement.astro";
 
-import { headerData, footerData } from '~/navigation';
+import { headerData, footerData } from "~/navigation";
 
-import type { MetaData } from '~/types';
+import type { MetaData } from "~/types";
+import fetchApi from "~/api/strapi";
+import type { Header as HeaderType } from "~/api/types";
 
 export interface Props {
   metadata?: MetaData;
 }
+
+const header = await fetchApi<HeaderType>({
+  endpoint: "header?populate=*",
+  wrappedByKey: "data",
+});
+
+console.log({ header });
 
 const { metadata } = Astro.props;
 ---
